@@ -16,10 +16,10 @@ main {
   margin-right: auto;
 }
 
-#maincontent{
+/*#maincontent{
   display: flex;
   flex-wrap: wrap;
-}
+}*/
 
 body {
 	background-color: #fdfdfd;
@@ -51,7 +51,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #maincontent {
   background-color: #f3f3f3;
-  min-height: 100%;
+  /*min-height: 100%;*/
 }
 #footer {
   background-color: #444;
@@ -119,6 +119,7 @@ nav h1 a {
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
+  width: 
   background-color: #3397DB;
   align-items: center;
   padding: 1em;
