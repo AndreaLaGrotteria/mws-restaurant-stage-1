@@ -182,6 +182,7 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.className = 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored';
   more.innerHTML = 'View Details';
+  more.setAttribute('aria-label', `${restaurant.name}: view details`);
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 

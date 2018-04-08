@@ -20,19 +20,23 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container" tabindex="-1">
-      <div id="map" tabindex="-1"></div>
+    <section id="map-container" >
+      <div id="map" tabindex="0" aria-labelledby="map-lbl"></div>
+      <div id='map-lbl' hidden>Restaurants map</div>
     </section>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-labelledby="lbl1">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <div id='lbl1' hidden>Select neighborhood</div>
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-labelledby="lbl2">
           <option value="all">All Cuisines</option>
         </select>
+        <div id='lbl2' hidden>Select cuisines</div>
       </div>
+      
       <ul id="restaurants-list"></ul>
     </section>
   </main>
