@@ -183,6 +183,7 @@ createRestaurantHTML = (restaurant) => {
   more.className = 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored';
   more.innerHTML = 'View Details';
   more.setAttribute('aria-label', `${restaurant.name}: view details`);
+  more.setAttribute('role','button');
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 
