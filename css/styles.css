@@ -115,7 +115,7 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-    color: #0275d8;
+    color: #3f51b5;
     text-decoration: none;
 }
 
@@ -140,7 +140,7 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
 
-  background-color: #3397DB;
+  background-color: #3f51b5;
   /*align-items: center;*/
   padding: 1em;
   margin: 1em;
@@ -195,7 +195,7 @@ nav h1 a {
 #restaurants-list li h1 {
   width: 100%;
   display: block;
-  color: #f18200;
+  color: rgb(63,81,181);
   font-family: Arial,sans-serif;
   font-size: 14pt;
   font-weight: 200;
@@ -210,8 +210,6 @@ nav h1 a {
   font-size: 11pt;
 }
 #restaurants-list li a {
-  background-color: orange;
-  /*border-bottom: 3px solid #eee;*/
   color: #fff;
   display: block;
   font-size: 10pt;
@@ -272,14 +270,12 @@ nav h1 a {
   width: 100%;
 }
 .inside #footer {
-  display: flex;
-  flex-wrap: wrap;
   order: 10;
   bottom: 0;
   width: 100%;
 }
 #restaurant-name {
-  color: #f18200;
+  color: rgb(63,81,181);
   font-family: Arial,sans-serif;
   font-size: 20pt;
   font-weight: 200;
@@ -321,7 +317,7 @@ nav h1 a {
   width: 45%
 }
 #reviews-container h2 {
-  color: #f58500;
+  color: rgb(63,81,181);
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
@@ -347,6 +343,10 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+#footer a{
+  color: #FFC107;
 }
 
 @media screen and (max-width: 550px){
