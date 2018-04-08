@@ -81,6 +81,23 @@ window.initMap = () => {
     scrollwheel: false
   });
   updateRestaurants();
+
+  /*google.maps.event.addListener(self.map, 'tilesloaded', function() {
+    [].slice.apply(document.querySelectorAll('#map a')).forEach(function(item) {
+      item.setAttribute('tabindex','-1');
+    });
+    [].slice.apply(document.querySelectorAll('#map div')).forEach(function(item) {
+      item.setAttribute('tabindex','-1');
+    });
+    [].slice.apply(document.querySelectorAll('#map button')).forEach(function(item) {
+      item.setAttribute('tabindex','-1');
+    });
+    [].slice.apply(document.querySelectorAll('#map iframe')).forEach(function(item) {
+      item.setAttribute('tabindex','-1');
+    }); 
+                           
+  });*/
+  
 }
 
 /**
@@ -138,10 +155,17 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+  const imgCont = document.createElement('div');
+  li.append(imgCont);
+
   const image = document.createElement('img');
   image.className = 'restaurant-img';
+  image.alt = restaurant.name;
+  image.height = "600";
+  image.width = "800";
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  image.srcset = `${DBHelper.imageUrlForRestaurant(restaurant)} 2x, ${DBHelper.rszImageUrlForRestaurant(restaurant)} 1x`
+  imgCont.append(image);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
