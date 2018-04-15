@@ -1,6 +1,10 @@
 let restaurant;
 var map;
 
+
+/**
+ * Register Service Worker once the page has loaded.
+ */
 window.addEventListener('load', () => {
   registerSW();
 });
@@ -63,7 +67,10 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.alt = restaurant.name;
+  image.height = "600";
+  image.width = "800";
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.srcset = `${DBHelper.imageUrlForRestaurant(restaurant)} 2x, ${DBHelper.rszImageUrlForRestaurant(restaurant)} 1x`;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;

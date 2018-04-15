@@ -164,7 +164,7 @@ nav h1 a {
   letter-spacing: 0;
   margin: .5em;
   padding: 0 10px;
-  width: 46%;
+  width: calc((100% - 2.5em)/2);
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -183,7 +183,7 @@ nav h1 a {
 
   padding: 0 30px 25px;
   text-align: left;
-  width: calc(33% - 7em);
+  width: calc((100% - 282px)/3);
 
 }
 #restaurants-list .restaurant-img {
@@ -259,8 +259,6 @@ nav h1 a {
 .inside #map-container {
   display: flex;
   flex-wrap: wrap;
-  /*margin: 5em 3em 1em;*/
-  /*background: blue none repeat scroll 0 0;*/
   order: 1;
   width: 100%;
   height: 20em;
@@ -286,8 +284,8 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-  width: 90%;
-  max-height: 250px;
+  width: 100%;
+  height: auto;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -304,7 +302,7 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: 100%;
 }
 #restaurant-container, #reviews-container {
   /*border-bottom: 1px solid #d9d9d9;*/
@@ -383,7 +381,7 @@ nav h1 a {
 
 @media screen and (min-width: 550px) and (max-width: 850px){
   #restaurants-list li{
-    width: calc(50% - 8em);
+    width: calc((100% - 188px)/2);
   }
 }
 

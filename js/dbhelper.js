@@ -153,6 +153,9 @@ class DBHelper {
     return (`/img/${restaurant.photograph}`);
   }
 
+  /**
+   * Restaurant resized image URL.
+   */
   static rszImageUrlForRestaurant(restaurant) {
     return (`/img/${restaurant.rszPhotograph}`);
   }
