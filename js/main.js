@@ -7,6 +7,11 @@ var markers = []
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
+
+window.addEventListener('load', () => {
+  registerSW();
+});
+
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
@@ -202,4 +207,17 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+
+/** 
+  *Service worker
+  **/
+registerSW = () => {
+  if(!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/sw.js').then((registration) =>{
+    console.log('Registration worked! Scope: ', registration.scope);
+  }).catch(() =>{
+    console.log('Registration failed.');
+  })
 }

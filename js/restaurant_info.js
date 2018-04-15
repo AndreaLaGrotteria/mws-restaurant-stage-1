@@ -1,6 +1,11 @@
 let restaurant;
 var map;
 
+window.addEventListener('load', () => {
+  registerSW();
+});
+
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -161,4 +166,17 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/** 
+  *Service worker
+  **/
+ registerSW = () => {
+  if(!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/sw.js').then((registration) =>{
+    console.log('Registration worked! Scope: ', registration.scope);
+  }).catch(() =>{
+    console.log('Registration failed.');
+  })
 }
