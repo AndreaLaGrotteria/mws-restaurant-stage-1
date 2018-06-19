@@ -1,4 +1,4 @@
-var cacheVer = 'reviews-app-v15';
+var cacheVer = 'reviews-app-v19';
 
 self.addEventListener('install', (event) => {
     event.waitUntil(

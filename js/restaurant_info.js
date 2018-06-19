@@ -7,8 +7,29 @@ var map;
  */
 window.addEventListener('load', () => {
   registerSW();
+  //idbOpen();
 });
 
+
+//idb
+idbOpen = () => {
+  const id = getParameterByName('id');
+
+  DBHelper.fetchRestaurantById(id, (error, restaurants) => {
+    if (error){
+      console.error(error);
+    } else {
+      idb.open('app-db', 3, (upgradeDb) => {
+        var resStore = upgradeDb.createObjectStore('restaurant', {keyPath: 'id'});
+      }).then((db) => {
+        var tx = db.transaction('restaurant', 'readwrite');
+        var store = tx.objectStore('restaurant');
+        store.put(restaurant);
+      });
+    }
+  })
+  
+}
 
 /**
  * Initialize Google map, called from HTML.
@@ -109,7 +130,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
-  title.innerHTML = 'Reviews';
+  //title.innerHTML = 'Reviews';
   container.appendChild(title);
 
   if (!reviews) {
@@ -178,7 +199,7 @@ getParameterByName = (name, url) => {
 /** 
   *Service worker
   **/
- registerSW = () => {
+registerSW = () => {
   if(!navigator.serviceWorker) return;
 
   navigator.serviceWorker.register('/sw.js').then((registration) =>{

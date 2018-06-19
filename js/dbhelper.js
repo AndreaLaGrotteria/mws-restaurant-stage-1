@@ -8,14 +8,15 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
+    /*
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
@@ -29,6 +30,29 @@ class DBHelper {
       }
     };
     xhr.send();
+    */
+
+    idb.open('app-db', 3, (upgradeDb) => {
+      var resStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+    }).then((db) => {
+      if(!db) return;
+      var tx = db.transaction('restaurants');
+      var store = tx.objectStore('restaurants');
+      return store.getAll().then((restaurants) => {
+        if(restaurants.length < 1) return;
+        callback(null, restaurants);
+      })
+    });
+
+    fetch(DBHelper.DATABASE_URL).then((response) =>{
+      return response.json();
+    }).then( (restaurants) =>{
+      console.log('fetch successful!');
+
+      callback(null, restaurants);
+    }
+
+    )
   }
 
   /**
@@ -36,7 +60,31 @@ class DBHelper {
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
+
+    idb.open('app-db', 3, (upgradeDb) => {
+      var resStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+    }).then((db) => {
+      if(!db) return;
+      var tx = db.transaction('restaurants');
+      var store = tx.objectStore('restaurants');
+      return store.getAll().then((restaurants) => {
+        if(restaurants.length < 1) return;
+        callback(null, restaurants[id]);
+      })
+    });
+
+    fetch(`${DBHelper.DATABASE_URL}/${id}`).then((response) => {
+      return response.json();
+    }).then((restaurant) => {
+      if (restaurant) { // Got the restaurant
+        callback(null, restaurant);
+      } else { // Restaurant does not exist in the database
+        callback('Restaurant does not exist', null);
+      }
+    })
+
+
+    /*DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -47,7 +95,7 @@ class DBHelper {
           callback('Restaurant does not exist', null);
         }
       }
-    });
+    });*/
   }
 
   /**
@@ -150,14 +198,14 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/img/${restaurant.photograph}.jpg`);
   }
 
   /**
    * Restaurant resized image URL.
    */
   static rszImageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.rszPhotograph}`);
+    return (`/img/${restaurant.rszPhotograph}.jpg`);
   }
 
   /**
