@@ -9,13 +9,15 @@ self.addEventListener('install', (event) => {
                 '/restaurant.html',
                 'index.html',
                 'restaurant.html',
-                'data/restaurants.json',
                 'css/styles.css',
                 'js/dbhelper.js',
+                'js/idb.js',
                 'js/main.js',
                 'js/restaurant_info.js'
             ]);
         })
+
+
     )
 });
 

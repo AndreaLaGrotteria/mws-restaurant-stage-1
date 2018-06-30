@@ -7,29 +7,8 @@ var map;
  */
 window.addEventListener('load', () => {
   registerSW();
-  //idbOpen();
 });
 
-
-//idb
-idbOpen = () => {
-  const id = getParameterByName('id');
-
-  DBHelper.fetchRestaurantById(id, (error, restaurants) => {
-    if (error){
-      console.error(error);
-    } else {
-      idb.open('app-db', 3, (upgradeDb) => {
-        var resStore = upgradeDb.createObjectStore('restaurant', {keyPath: 'id'});
-      }).then((db) => {
-        var tx = db.transaction('restaurant', 'readwrite');
-        var store = tx.objectStore('restaurant');
-        store.put(restaurant);
-      });
-    }
-  })
-  
-}
 
 /**
  * Initialize Google map, called from HTML.

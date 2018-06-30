@@ -16,86 +16,58 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    /*
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
+
+    readDB().then((items) => {
+      if (items.length > 0){
+        console.log(items)
+        callback(null, items);
+      } else{
+        fetch(DBHelper.DATABASE_URL).then((response) =>{
+          return response.json();
+        }).then( (restaurants) =>{
+          console.log('fetch successful!');
+          callback(null, restaurants);
+        })
       }
-    };
-    xhr.send();
-    */
+    }) 
+  }
 
-    idb.open('app-db', 3, (upgradeDb) => {
-      var resStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
-    }).then((db) => {
-      if(!db) return;
-      var tx = db.transaction('restaurants');
-      var store = tx.objectStore('restaurants');
-      return store.getAll().then((restaurants) => {
-        if(restaurants.length < 1) return;
-        callback(null, restaurants);
-      })
-    });
 
+  //fetch restaurants for idb
+  static fetchResIDB(callback){
     fetch(DBHelper.DATABASE_URL).then((response) =>{
       return response.json();
     }).then( (restaurants) =>{
-      console.log('fetch successful!');
-
+      
+      console.log('fetch idb successful!');
+      console.log(restaurants);
       callback(null, restaurants);
-    }
-
-    )
+    })
   }
 
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    // fetch all restaurants with proper error handling.
+    // fetch all restaurants with proper error handling
 
-    idb.open('app-db', 3, (upgradeDb) => {
-      var resStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
-    }).then((db) => {
-      if(!db) return;
-      var tx = db.transaction('restaurants');
-      var store = tx.objectStore('restaurants');
-      return store.getAll().then((restaurants) => {
-        if(restaurants.length < 1) return;
-        callback(null, restaurants[id]);
-      })
-    });
+    const siteId = id - 1;
 
-    fetch(`${DBHelper.DATABASE_URL}/${id}`).then((response) => {
-      return response.json();
-    }).then((restaurant) => {
-      if (restaurant) { // Got the restaurant
-        callback(null, restaurant);
-      } else { // Restaurant does not exist in the database
-        callback('Restaurant does not exist', null);
+    readDB().then((restaurants) => {
+      if(restaurants.length > 0){
+        callback(null, restaurants[siteId])
+      } else{
+        fetch(`${DBHelper.DATABASE_URL}/${siteId}`).then((response) => {
+          return response.json();
+        }).then((restaurant) => {
+          if (restaurant) { // Got the restaurant
+            callback(null, restaurant);
+          } else { // Restaurant does not exist in the database
+            callback('Restaurant does not exist', null);
+          }
+        })
       }
     })
-
-
-    /*DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
-        }
-      }
-    });*/
   }
 
   /**

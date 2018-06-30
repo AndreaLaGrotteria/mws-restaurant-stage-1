@@ -10,7 +10,8 @@ var markers = [];
  */
 window.addEventListener('load', () => {
   registerSW();
-  idbOpen();  
+  
+  createAndUpdateDB(); 
 });
 
 /**
@@ -20,26 +21,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
 });
-
-//idb
-idbOpen = () => {
-  DBHelper.fetchRestaurants((error, restaurants) => {
-    if (error){
-      console.error(error);
-    } else {
-      idb.open('app-db', 3, (upgradeDb) => {
-        var resStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
-      }).then((db) => {
-        var tx = db.transaction('restaurants', 'readwrite');
-        var store = tx.objectStore('restaurants');
-        restaurants.forEach((restaurant) => {
-          store.put(restaurant);
-        })
-      });
-    }
-  })
-  
-}
 
 /**
  * Fetch all neighborhoods and set their HTML.
