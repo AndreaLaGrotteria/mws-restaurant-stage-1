@@ -118,6 +118,7 @@ updateRestaurants = () => {
     } else {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
+      lazy();
     }
   })
 }
@@ -159,17 +160,18 @@ createRestaurantHTML = (restaurant) => {
 
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img lazy';
   image.alt = `Image of ${restaurant.name}`;
   image.height = "600";
   image.width = "800";
   image.id = restaurant.photograph;
-  //image.src = DBHelper.imageUrlForRestaurant(restaurant.photograph);
-  //image.srcset = `${DBHelper.imageUrlForRestaurant(restaurant.photograph)} 2x, ${DBHelper.rszImageUrlForRestaurant(restaurant.rszPhotograph)} 1x`;
+  image.setAttribute("data-src", DBHelper.imageUrlForRestaurant(restaurant.photograph));
+  image.setAttribute("data-srcset", `${DBHelper.imageUrlForRestaurant(restaurant.photograph)} 2x, ${DBHelper.rszImageUrlForRestaurant(restaurant.rszPhotograph)} 1x`);
   imgCont.append(image);
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
+  name.setAttribute("style", "width: 100%");
   li.append(name);
 
   const neighborhood = document.createElement('p');
@@ -221,25 +223,34 @@ registerSW = () => {
 
 //lazy-loading images
 var io = new IntersectionObserver(
-  entries => {
-    var ratio = entries[0].intersectionRatio;
+  (entries, observer) => {
+    /*var ratio = entries[0].intersectionRatio;
     console.log(entries);
-    if(ratio > 0.2){
+    if(ratio > 0){
       var id = entries[0].target.id;
       var el = document.getElementById(id);
       el.src = DBHelper.imageUrlForRestaurant(id);
       el.srcset = `${DBHelper.imageUrlForRestaurant(id)} 2x, ${DBHelper.rszImageUrlForRestaurant(id)} 1x`;
 
-    }
+    }*/
+    entries.forEach((entry) => {
+      if (entry.isIntersecting){
+        let lazyImage = entry.target;
+        lazyImage.src = lazyImage.dataset.src;
+        lazyImage.srcset = lazyImage.dataset.srcset;
+        lazyImage.classList.remove("lazy");
+        io.unobserve(lazyImage);
+      }
+    })
   },
   {
-    /* Using default options. Details below */
+    
   }
 );
 
 // Start observing an element
 lazy = () => {
-  var elements = document.getElementsByClassName('restaurant-img');
+  var elements = document.querySelectorAll('img.restaurant-img');
   for(var i=0; i < elements.length; i++){
     io.observe(elements[i]);
   }
