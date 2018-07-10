@@ -480,12 +480,10 @@ nav h1 a {
   
   transition: background-color .3s;
 
-  width: 60%;
-  height: 4.5em;
 }
 
 .btn:hover, .btn:focus {
-  background-color: #27ae60;
+  background-color: #3f51b5;
 }
 
 .btn > * {

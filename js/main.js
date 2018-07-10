@@ -160,7 +160,7 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.alt = restaurant.name;
+  image.alt = `Image of ${restaurant.name}`;
   image.height = "600";
   image.width = "800";
   image.id = restaurant.photograph;
@@ -168,7 +168,7 @@ createRestaurantHTML = (restaurant) => {
   //image.srcset = `${DBHelper.imageUrlForRestaurant(restaurant.photograph)} 2x, ${DBHelper.rszImageUrlForRestaurant(restaurant.rszPhotograph)} 1x`;
   imgCont.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
 
@@ -180,7 +180,7 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
-  const more = document.createElement('button');
+  const more = document.createElement('a');
   more.className = 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn';
   more.innerHTML = 'View Details';
   more.setAttribute('aria-label', `${restaurant.name}: view details`);
