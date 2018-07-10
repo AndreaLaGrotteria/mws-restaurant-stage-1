@@ -4,7 +4,6 @@ let restaurants,
 var map;
 var markers = [];
 
-
 /**
  * Register Service Worker once the page has loaded.
  */
@@ -14,13 +13,19 @@ window.addEventListener('load', () => {
   createAndUpdateDB(); 
 });
 
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  
 });
+
+window.onload = () => {
+  lazy();
+}
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -158,8 +163,9 @@ createRestaurantHTML = (restaurant) => {
   image.alt = restaurant.name;
   image.height = "600";
   image.width = "800";
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.srcset = `${DBHelper.imageUrlForRestaurant(restaurant)} 2x, ${DBHelper.rszImageUrlForRestaurant(restaurant)} 1x`;
+  image.id = restaurant.photograph;
+  //image.src = DBHelper.imageUrlForRestaurant(restaurant.photograph);
+  //image.srcset = `${DBHelper.imageUrlForRestaurant(restaurant.photograph)} 2x, ${DBHelper.rszImageUrlForRestaurant(restaurant.rszPhotograph)} 1x`;
   imgCont.append(image);
 
   const name = document.createElement('h1');
@@ -174,8 +180,8 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
-  const more = document.createElement('a');
-  more.className = 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored';
+  const more = document.createElement('button');
+  more.className = 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn';
   more.innerHTML = 'View Details';
   more.setAttribute('aria-label', `${restaurant.name}: view details`);
   more.setAttribute('role','button');
@@ -210,4 +216,31 @@ registerSW = () => {
   }).catch(() =>{
     console.log('Registration failed.');
   })
+}
+
+
+//lazy-loading images
+var io = new IntersectionObserver(
+  entries => {
+    var ratio = entries[0].intersectionRatio;
+    console.log(entries);
+    if(ratio > 0.2){
+      var id = entries[0].target.id;
+      var el = document.getElementById(id);
+      el.src = DBHelper.imageUrlForRestaurant(id);
+      el.srcset = `${DBHelper.imageUrlForRestaurant(id)} 2x, ${DBHelper.rszImageUrlForRestaurant(id)} 1x`;
+
+    }
+  },
+  {
+    /* Using default options. Details below */
+  }
+);
+
+// Start observing an element
+lazy = () => {
+  var elements = document.getElementsByClassName('restaurant-img');
+  for(var i=0; i < elements.length; i++){
+    io.observe(elements[i]);
+  }
 }

@@ -19,7 +19,7 @@ class DBHelper {
 
     readDB().then((items) => {
       if (items.length > 0){
-        console.log(items)
+        //console.log(items)
         callback(null, items);
       } else{
         fetch(DBHelper.DATABASE_URL).then((response) =>{
@@ -40,7 +40,7 @@ class DBHelper {
     }).then( (restaurants) =>{
       
       console.log('fetch idb successful!');
-      console.log(restaurants);
+      //console.log(restaurants);
       callback(null, restaurants);
     })
   }
@@ -169,15 +169,15 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}.jpg`);
+  static imageUrlForRestaurant(photograph) {
+    return (`/img/${photograph}.webp`);
   }
 
   /**
    * Restaurant resized image URL.
    */
-  static rszImageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.rszPhotograph}.jpg`);
+  static rszImageUrlForRestaurant(rszPhotograph) {
+    return (`/img/${rszPhotograph}.webp`);
   }
 
   /**
