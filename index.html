@@ -3,10 +3,39 @@
 
 <head>
   <!--<link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" /> -->
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css" defer async>
   <!--<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script> -->
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #maincontent{
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    ul, li {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    color: #333;
+    }
+
+    article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+
+    #breadcrumb li {
+      display: inline;
+    }
+  </style>
   <meta charset="utf-8">
   <meta name="theme-color" content="#252831"/>
   <link rel="manifest" href="/manifest.json">
@@ -24,7 +53,12 @@
 
   <main id="maincontent">
     <section id="map-container" >
-      <div id="map" tabindex="0" aria-labelledby="map-lbl" role="application"></div>
+      <!--picture id="static-map" style="display: block" alt="static map">
+          <source media="(max-width: 600px)" srcset="https://maps.googleapis.com/maps/api/staticmap?center=40.717216+-73.987501&zoom=12&scale=1&size=400x300&maptype=roadmap&key=AIzaSyBFTWeDdo3z6cIatfPcxwkeNN75VZxaKmY&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C40.713829+-73.989667&markers=size:mid%7Ccolor:0xff0000%7Clabel:2%7C40.683555+-73.966393&markers=size:mid%7Ccolor:0xff0000%7Clabel:3%7C40.747143+-73.985414&markers=size:mid%7Ccolor:0xff0000%7Clabel:4%7C40.722216+-73.987501&markers=size:mid%7Ccolor:0xff0000%7Clabel:5%7C40.705089+-73.933585&markers=size:mid%7Ccolor:0xff0000%7Clabel:6%7C40.674925+-74.016162&markers=size:mid%7Ccolor:0xff0000%7Clabel:7%7C40.727397+-73.983645&markers=size:mid%7Ccolor:0xff0000%7Clabel:8%7C40.726584+-74.002082&markers=size:mid%7Ccolor:0xff0000%7Clabel:9%7C40.743797+-73.950652&markers=size:mid%7Ccolor:0xff0000%7Clabel:9%7C40.743394+73.954235" />
+          <source media="(min-width: 601px)" srcset="https://maps.googleapis.com/maps/api/staticmap?center=40.717216+-73.987501&zoom=12&scale=1&size=600x270&maptype=roadmap&key=AIzaSyBFTWeDdo3z6cIatfPcxwkeNN75VZxaKmY&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C40.713829+-73.989667&markers=size:mid%7Ccolor:0xff0000%7Clabel:2%7C40.683555+-73.966393&markers=size:mid%7Ccolor:0xff0000%7Clabel:3%7C40.747143+-73.985414&markers=size:mid%7Ccolor:0xff0000%7Clabel:4%7C40.722216+-73.987501&markers=size:mid%7Ccolor:0xff0000%7Clabel:5%7C40.705089+-73.933585&markers=size:mid%7Ccolor:0xff0000%7Clabel:6%7C40.674925+-74.016162&markers=size:mid%7Ccolor:0xff0000%7Clabel:7%7C40.727397+-73.983645&markers=size:mid%7Ccolor:0xff0000%7Clabel:8%7C40.726584+-74.002082&markers=size:mid%7Ccolor:0xff0000%7Clabel:9%7C40.743797+-73.950652&markers=size:mid%7Ccolor:0xff0000%7Clabel:9%7C40.743394+73.954235" />
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center=40.717216+-73.987501&zoom=12&scale=1&size=600x270&maptype=roadmap&key=AIzaSyBFTWeDdo3z6cIatfPcxwkeNN75VZxaKmY&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C40.713829+-73.989667&markers=size:mid%7Ccolor:0xff0000%7Clabel:2%7C40.683555+-73.966393&markers=size:mid%7Ccolor:0xff0000%7Clabel:3%7C40.747143+-73.985414&markers=size:mid%7Ccolor:0xff0000%7Clabel:4%7C40.722216+-73.987501&markers=size:mid%7Ccolor:0xff0000%7Clabel:5%7C40.705089+-73.933585&markers=size:mid%7Ccolor:0xff0000%7Clabel:6%7C40.674925+-74.016162&markers=size:mid%7Ccolor:0xff0000%7Clabel:7%7C40.727397+-73.983645&markers=size:mid%7Ccolor:0xff0000%7Clabel:8%7C40.726584+-74.002082&markers=size:mid%7Ccolor:0xff0000%7Clabel:9%7C40.743797+-73.950652&markers=size:mid%7Ccolor:0xff0000%7Clabel:9%7C40.743394+73.954235">
+      </picture-->    
+      <div id="map"  tabindex="0" aria-labelledby="map-lbl" role="application"></div>
       <div id='map-lbl' hidden>Restaurants map</div>
     </section>
     <section>
@@ -48,27 +82,7 @@
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/idbWorker.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_52Dw7snZfKe0Yo1Ao2g2_jubYbPT3F4&libraries=places&callback=initMap"></script>
-  <!-- <script>
-    var io = new IntersectionObserver(
-      entries => {
-        console.log(entries);
-      },
-      {
-        /* Using default options. Details below */
-      }
-    );
-
-    // Start observing an element
-    var elements = document.getElementsByClassName('restaurant-img');
-    console.log(elements);
-    var element = elements.item(0);
-    console.log(element);
-    io.observe(element);
-    
-  </script> -->
-  
-
+  <!--script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_52Dw7snZfKe0Yo1Ao2g2_jubYbPT3F4&libraries=places&callback=initMap"></script-->
 
   <footer id="footer">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.

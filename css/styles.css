@@ -1,12 +1,12 @@
 @charset "utf-8";
 /* CSS Document */
 
-body, html {
+/*body, html {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-}
+}*/
 
 
 body,td,th,p{
@@ -26,23 +26,23 @@ main {
   margin-right: auto;
 }
 
-#maincontent{
+/*#maincontent{
   display: flex;
   flex-wrap: wrap;
-}
+}*/
 
 body {
 	background-color: #fdfdfd;
 	margin: 0;
 	position:relative;
 }
-ul, li {
+/*ul, li {
   display: flex;
   flex-wrap: wrap;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #333;
-}
+}*/
 a {
   /*color: orange;*/
 	text-decoration: none;
@@ -58,9 +58,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
 }
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+/*article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
-}
+}*/
 
 
 #maincontent {
@@ -104,9 +104,9 @@ nav h1 a {
 }
 
 /* Display list items side by side */
-#breadcrumb li {
+/*#breadcrumb li {
     display: inline;
-}
+}*/
 
 /* Add a slash symbol (/) before/behind each list item */
 #breadcrumb li+li:before {
@@ -133,8 +133,11 @@ nav h1 a {
   padding: 1em;
 }
 
-#map {
+#static-map{
+  width: 100%;
+}
 
+#map {
   height: 100%;
   width: 100%;
   background-color: #ccc;
@@ -216,7 +219,7 @@ nav h1 a {
   display: block;
   font-size: 10pt;
   margin: 15px 0 0;
-  padding: 8px 30px 10px;
+  padding: 10px 16px 1px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
@@ -305,18 +308,57 @@ nav h1 a {
   text-transform: uppercase;
 	width: 100%;
 }
-#restaurant-container, #reviews-container {
+
+/*#review-form{
+  padding: 1.5em 1em 1em 1em;
+  width: 45%;
+  order: 3
+}*/
+
+#restaurant-container{
   /*border-bottom: 1px solid #d9d9d9;*/
   /*border-top: 1px solid #fff;*/
   padding: 3em 3em 1em;
   width: 50%;
+  
 }
+
+/*========================= Reviews ==============================*/
+
+#reviews-title {
+  color: rgb(63,81,181);
+  font-family: Arial,sans-serif;
+  font-size: 20pt;
+  font-weight: 200;
+  letter-spacing: 0;
+  margin: 15px 0 30px;
+  line-height: 1.1;
+}
+
 #reviews-container {
-  padding: 1.5em 1em 1em 1em;
+  padding: 3em 1em 1em 1em;
   order: 3;
   width: 45%
 }
-#reviews-container h3 {
+
+#reviews-view {
+  margin-top: 2em;
+}
+
+#form-name, #form-rating, #form-comment{
+  width: 100%
+}
+
+#form-comment{
+  height: 100px;
+}
+
+#form-submit{
+  padding: 0.5em 2em 0.5em 2em;
+  margin: 0.5em 0em 0em 0em
+}
+
+#reviews-view h3 {
   color: rgb(63,81,181);
   font-size: 24pt;
   font-weight: 300;
@@ -399,11 +441,15 @@ nav h1 a {
     order: 1;
   }
 
+  #reviews-container{
+    width: 100%;
+  }
+
   .inside #map-container{
     order: 2;
   }
 
-  #reviews-container{
+  #reviews-view{
     width: 100%;
     padding: 3em;
   }
@@ -522,4 +568,54 @@ nav h1 a {
   padding-top: 120%;
   
   transition: width .2s ease-out, padding-top .2s ease-out;
+}
+
+
+
+/* =============================== Snackbar ===================================*/
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 50%; /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+  visibility: visible; /* Show the snackbar */
+
+/* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }

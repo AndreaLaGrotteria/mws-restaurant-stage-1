@@ -4,13 +4,22 @@ let restaurants,
 var map;
 var markers = [];
 
+
 /**
  * Register Service Worker once the page has loaded.
  */
 window.addEventListener('load', () => {
   registerSW();
-  
   createAndUpdateDB(); 
+  favHandling();
+  window.addEventListener('online', checkUpdateReviewDb());
+  /*document.getElementById('static-map').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('static-map').style.display = 'none';
+    document.getElementById('map').style.display = "block";  */
+    addMarkersToMap();
+  //});
+  mapHandling();
 });
 
 
@@ -20,12 +29,14 @@ window.addEventListener('load', () => {
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
-  
+  updateRestaurants();
 });
 
 window.onload = () => {
   lazy();
 }
+
+
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -95,7 +106,7 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
+  /*updateRestaurants();*/
   
 }
 
@@ -146,7 +157,6 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
-  addMarkersToMap();
 }
 
 /**
@@ -188,7 +198,28 @@ createRestaurantHTML = (restaurant) => {
   more.setAttribute('aria-label', `${restaurant.name}: view details`);
   more.setAttribute('role','button');
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  li.append(more);
+
+  const fav = document.createElement('a');
+  const favImg = document.createElement('img');
+  favImg.alt = "Favourite restaurant star";
+  favImg.height = "30";
+  favImg.length = "30";
+  if(restaurant.is_favorite == "true"){
+    favImg.setAttribute("src", "img/star_checked.svg");
+    fav.setAttribute('arial-label', `${restaurant.name} is your favourite restaurant`);
+    favImg.classList.add('checked');
+  } else{
+    favImg.setAttribute("src", "img/star_unchecked.svg");
+    fav.setAttribute('arial-label', `Make ${restaurant.name} your favourite restaurant`);
+    favImg.classList.add('unchecked');
+  }
+  fav.append(favImg);
+  fav.setAttribute('role', 'button');
+  favImg.id = `fav_${restaurant.id}`;
+  favImg.classList.add('fav');
+  li.append(fav);
+
 
   return li
 }
@@ -255,3 +286,65 @@ lazy = () => {
     io.observe(elements[i]);
   }
 }
+
+
+//Handling favourites
+favHandling = () => {
+  
+
+  const fav_elements = document.querySelectorAll(".fav");
+  fav_elements.forEach(element => {
+    element.onclick = () => {
+      const checked = document.querySelectorAll('.checked');
+      if(checked.length > 0){
+        if(element.classList.contains('checked')){
+          element.setAttribute('src', 'img/star_unchecked.svg');
+          fav_id = element.id.split('_')[1];
+          const init = {
+            method: 'PUT'
+          }
+          fetch(`http://localhost:1337/restaurants/${fav_id}/?is_favorite=false`, init)
+          .then(response => response.json())
+          .catch(error => console.log('Error: ', error))
+          .then(response => {
+            console.log('Response: ', response);
+            element.classList.remove('checked');
+            element.classList.add('unchecked');
+            createAndUpdateDB();
+          });
+        } else{
+          return
+        }
+        
+      } else{
+        element.setAttribute('src', 'img/star_checked.svg');
+        fav_id = element.id.split('_')[1];
+        const init = {
+          method: 'PUT'
+        }
+        fetch(`http://localhost:1337/restaurants/${fav_id}/?is_favorite=true`, init)
+        .then(response => response.json())
+        .catch(error => console.log('Error: ', error))
+        .then(response => {
+          console.log('Response: ', response);
+          element.classList.remove('unchecked');
+          element.classList.add('checked');
+          createAndUpdateDB();
+        });
+      }
+    }
+      
+  })
+}
+
+
+
+mapHandling = () => {
+  var script = document.createElement('script');
+  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB_52Dw7snZfKe0Yo1Ao2g2_jubYbPT3F4&libraries=places&callback=initMap';
+  document.body.appendChild(script);
+}
+
+
+
+
