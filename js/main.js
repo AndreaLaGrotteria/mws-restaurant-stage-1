@@ -13,12 +13,12 @@ window.addEventListener('load', () => {
   createAndUpdateDB(); 
   favHandling();
   window.addEventListener('online', checkUpdateReviewDb());
-  /*document.getElementById('static-map').addEventListener('click', (e) => {
+  document.getElementById('static-map').addEventListener('click', (e) => {
     e.preventDefault();
     document.getElementById('static-map').style.display = 'none';
-    document.getElementById('map').style.display = "block";  */
+    document.getElementById('map').style.display = "block";  
     addMarkersToMap();
-  //});
+  });
   mapHandling();
 });
 

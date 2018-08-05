@@ -65,7 +65,11 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <img id="static-map" style="display: block">
+      <picture id="static-map" style="display: flex">
+        <source id="media-700" media="(max-width: 700px)"/>
+        <source id="media-701" media="(min-width: 701px)"/>
+        <img id="img-static">
+      </picture>
       <div id="map" style="display: none" aria-label="Restaurant map" role="application"></div>
     </section>
     <!-- End map -->
