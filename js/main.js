@@ -11,7 +11,7 @@ var markers = [];
 window.addEventListener('load', () => {
   registerSW();
   createAndUpdateDB(); 
-  favHandling();
+  
   window.addEventListener('online', checkUpdateReviewDb());
   document.getElementById('static-map').addEventListener('click', (e) => {
     e.preventDefault();
@@ -130,8 +130,11 @@ updateRestaurants = () => {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
       lazy();
+      favHandling();
     }
   })
+
+  
 }
 
 /**
@@ -202,6 +205,8 @@ createRestaurantHTML = (restaurant) => {
 
   const fav = document.createElement('a');
   const favImg = document.createElement('img');
+  fav.className = 'star btn';
+  fav.setAttribute('style', 'background-color: #FFC107; margin-left: 1em;')
   favImg.alt = "Favourite restaurant star";
   favImg.height = "30";
   favImg.length = "30";
@@ -214,10 +219,11 @@ createRestaurantHTML = (restaurant) => {
     fav.setAttribute('arial-label', `Make ${restaurant.name} your favourite restaurant`);
     favImg.classList.add('unchecked');
   }
-  fav.append(favImg);
-  fav.setAttribute('role', 'button');
+  fav.id = `star_${restaurant.id}`
   favImg.id = `fav_${restaurant.id}`;
   favImg.classList.add('fav');
+  fav.append(favImg);
+  fav.setAttribute('role', 'button');
   li.append(fav);
 
 
@@ -290,26 +296,27 @@ lazy = () => {
 
 //Handling favourites
 favHandling = () => {
-  
-
-  const fav_elements = document.querySelectorAll(".fav");
-  fav_elements.forEach(element => {
-    element.onclick = () => {
+  console.log('calling fav handling');
+  const favElements = document.querySelectorAll(".star");
+  console.log(favElements)
+  favElements.forEach(element => {
+    element.addEventListener('click', () => {
+      console.log(`click on ${element.id}`)
+      star_id = element.id.split('_')[1]; 
       const checked = document.querySelectorAll('.checked');
       if(checked.length > 0){
-        if(element.classList.contains('checked')){
-          element.setAttribute('src', 'img/star_unchecked.svg');
-          fav_id = element.id.split('_')[1];
+        if(document.getElementById(`fav_${star_id}`).classList.contains('checked')){
+          document.getElementById(`fav_${star_id}`).setAttribute('src', 'img/star_unchecked.svg');
           const init = {
             method: 'PUT'
           }
-          fetch(`http://localhost:1337/restaurants/${fav_id}/?is_favorite=false`, init)
+          fetch(`http://localhost:1337/restaurants/${star_id}/?is_favorite=false`, init)
           .then(response => response.json())
           .catch(error => console.log('Error: ', error))
           .then(response => {
             console.log('Response: ', response);
-            element.classList.remove('checked');
-            element.classList.add('unchecked');
+            document.getElementById(`fav_${star_id}`).classList.remove('checked');
+            document.getElementById(`fav_${star_id}`).classList.add('unchecked');
             createAndUpdateDB();
           });
         } else{
@@ -317,22 +324,21 @@ favHandling = () => {
         }
         
       } else{
-        element.setAttribute('src', 'img/star_checked.svg');
-        fav_id = element.id.split('_')[1];
+        document.getElementById(`fav_${star_id}`).setAttribute('src', 'img/star_checked.svg');
         const init = {
           method: 'PUT'
         }
-        fetch(`http://localhost:1337/restaurants/${fav_id}/?is_favorite=true`, init)
+        fetch(`http://localhost:1337/restaurants/${star_id}/?is_favorite=true`, init)
         .then(response => response.json())
         .catch(error => console.log('Error: ', error))
         .then(response => {
           console.log('Response: ', response);
-          element.classList.remove('unchecked');
-          element.classList.add('checked');
+          document.getElementById(`fav_${star_id}`).classList.remove('unchecked');
+          document.getElementById(`fav_${star_id}`).classList.add('checked');
           createAndUpdateDB();
         });
       }
-    }
+    });
       
   })
 }

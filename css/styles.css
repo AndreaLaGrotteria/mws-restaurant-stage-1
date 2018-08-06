@@ -31,6 +31,12 @@ main {
   flex-wrap: wrap;
 }*/
 
+.star{
+  background-color: #FFC107;
+  margin-left: 1em;
+}
+
+
 body {
 	background-color: #fdfdfd;
 	margin: 0;
@@ -226,7 +232,18 @@ nav h1 a {
   margin: 0;
   font-size: 11pt;
 }
+#restaurants-list li a .star{
+  background-color: #FFC107;
+  margin-left: 1em;
+}
+
+a .star{
+  background-color: #FFC107;
+  margin-left: 1em;
+}
+
 #restaurants-list li a {
+  
   color: #fff;
   display: block;
   font-size: 10pt;
@@ -236,6 +253,7 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase;
 }
+
 
 /* ====================== Restaurant Details ====================== */
 .inside{
