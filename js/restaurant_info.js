@@ -292,7 +292,10 @@ formSubmit = () => {
 
         // After 3 seconds, remove the show class from DIV
         setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 4000);
+
       }
+
+      document.getElementById('reviews-list').appendChild(createReviewHTML(data));
       
     });
   }

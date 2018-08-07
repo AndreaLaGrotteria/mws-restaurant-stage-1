@@ -53,9 +53,12 @@
       <h1 style="padding: 0px"><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" role="breadcrumb">
-      <li><a aria-label="home" href="/">Home</a></li>
-    </ul>
+    <nav aria-label="breadcrumb" style="height: 4em">
+      <ul id="breadcrumb" role="breadcrumb">
+        <li><a aria-label="home" href="/">Home</a></li>
+      </ul>
+    </nav>
+    
     <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
@@ -95,15 +98,15 @@
     
     <!-- Beginning reviews -->
     <section id="reviews-container">
-      <h2 id="reviews-title">Reviews</h2>
+      <h3 id="reviews-title">Reviews</h3>
       <!-- reviews form-->
       <section id="review-form">
         <form id="review" role="form" aria-label="Write a review">
-          Name:<br>
+          <label>Name:</label><br>
           <input type="text" name="name" id="form-name" aria-label="Name"><br>
-          Rating:<br>
+          <label>Rating:</label><br>
           <input type="number" name="rating" id="form-rating" aria-label="Rating"><br>
-          Comment:<br>
+          <label>Comment:</label><br>
           <textarea name="comment" id="form-comment" aria-label="Comment"></textarea><br>
           <input type="submit" id="form-submit" class="btn">
         </form>

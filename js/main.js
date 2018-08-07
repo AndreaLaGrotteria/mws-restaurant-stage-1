@@ -304,7 +304,7 @@ favHandling = () => {
       console.log(`click on ${element.id}`)
       star_id = element.id.split('_')[1]; 
       const checked = document.querySelectorAll('.checked');
-      if(checked.length > 0){
+      
         if(document.getElementById(`fav_${star_id}`).classList.contains('checked')){
           document.getElementById(`fav_${star_id}`).setAttribute('src', 'img/star_unchecked.svg');
           const init = {
@@ -320,24 +320,22 @@ favHandling = () => {
             createAndUpdateDB();
           });
         } else{
-          return
+          document.getElementById(`fav_${star_id}`).setAttribute('src', 'img/star_checked.svg');
+          const init = {
+            method: 'PUT'
+          }
+          fetch(`http://localhost:1337/restaurants/${star_id}/?is_favorite=true`, init)
+          .then(response => response.json())
+          .catch(error => console.log('Error: ', error))
+          .then(response => {
+            console.log('Response: ', response);
+            document.getElementById(`fav_${star_id}`).classList.remove('unchecked');
+            document.getElementById(`fav_${star_id}`).classList.add('checked');
+            createAndUpdateDB();
+          });
         }
         
-      } else{
-        document.getElementById(`fav_${star_id}`).setAttribute('src', 'img/star_checked.svg');
-        const init = {
-          method: 'PUT'
-        }
-        fetch(`http://localhost:1337/restaurants/${star_id}/?is_favorite=true`, init)
-        .then(response => response.json())
-        .catch(error => console.log('Error: ', error))
-        .then(response => {
-          console.log('Response: ', response);
-          document.getElementById(`fav_${star_id}`).classList.remove('unchecked');
-          document.getElementById(`fav_${star_id}`).classList.add('checked');
-          createAndUpdateDB();
-        });
-      }
+      
     });
       
   })
